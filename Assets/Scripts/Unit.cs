@@ -5,7 +5,10 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public float hp;
+    public float max_hp;
     public bool isPlayer;
+    public float physicalArmor;
+    public float elementalArmor;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,9 +21,20 @@ public class Unit : MonoBehaviour
         
     }
 
-    public void Damage(float damage)
+    public void Damage(Damage damage)
     {
-        hp -= damage;
+        float effective_damage;
+        if (damage.type == global::Damage.DamageType.PHYSICAL)
+        {
+            effective_damage = damage.damage - physicalArmor;
+        }
+        else
+        {
+            effective_damage = damage.damage - elementalArmor;
+        }
+        hp -= effective_damage;
+
+        EventBus.Instance.Damage(new global::Damage(effective_damage, damage.type, damage.source));
         if (hp <= 0)
         {
             Die();
@@ -29,6 +43,6 @@ public class Unit : MonoBehaviour
 
     public virtual void Die()
     {
-        Debug.Log(gameObject.name + " dies");
+        Destroy(gameObject);
     }
 }

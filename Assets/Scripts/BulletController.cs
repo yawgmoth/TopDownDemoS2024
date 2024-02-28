@@ -8,6 +8,7 @@ public class BulletController : MonoBehaviour
     public float damage;
     public float lifetime;
     public bool isPlayer;
+    public GameObject owner;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +34,7 @@ public class BulletController : MonoBehaviour
         {
             if (u.isPlayer != isPlayer)
             {
-                u.Damage(damage);
+                u.Damage(new Damage(damage, Damage.DamageType.PHYSICAL, owner));
             }
             Destroy(gameObject);
         }

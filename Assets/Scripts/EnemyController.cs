@@ -47,13 +47,14 @@ public class EnemyController : MonoBehaviour
         for (int i = 0; i < 4; ++i)
         {
             GameObject b = Instantiate(bullet,
-                 transform.position + direction * new Vector3(4, 0, 0),
+                 transform.position + direction * new Vector3(4.5f, 0, 0),
                  direction);
             BulletController bc = b.GetComponent<BulletController>();
             bc.damage = damage;
             bc.isPlayer = false;
             bc.lifetime = 5;
             bc.speed = 40;
+            bc.owner = gameObject;
             direction *= Quaternion.Euler(0, 90, 0);
         }
     }
